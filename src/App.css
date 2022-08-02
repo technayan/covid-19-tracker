@@ -2,8 +2,34 @@
   margin: 0;
 }
 
+body {
+  background: #f5f6fa;
+}
+
+.App {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
+.app__left {
+  flex: 0.9;
+}
+
 .app__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.app__stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Responsive CSS */
+@media (max-width: 998px) {
+ .App {
+  flex-direction: column;
+ }
 }
