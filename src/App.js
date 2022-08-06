@@ -5,11 +5,20 @@ import CardContent from '@mui/material/CardContent';
 import { useEffect, useState } from 'react';
 import InfoBox from './components/InfoBox/InfoBox';
 import Map from './Map';
+import Table from './Table';
+import { sortData } from './util';
+import LineGraph from './LineGraph';
+
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState('worldwide');
   const [countryInfo, setCountryInfo] = useState([]);
+  const [tableData, setTableData] = useState([]);
+
+  // Last 15 days Cases data
+  const  [casesData, setCasesData] = useState({});
+
 
   useEffect(() => {
     fetch('https://disease.sh/v3/covid-19/all')
@@ -29,13 +38,29 @@ function App() {
             name: country.country,
           }
         ));
-      
+
+        const sortedData = sortData(data);
+        setTableData(sortedData);
         setCountries(countries);
       });
     };
 
     getCountriesData();
   }, []);
+
+  // Last 15 Days Cases Line Chart
+  useEffect(() => {
+        const fetchData = async () => {
+            await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=15')
+                    .then(res => res.json())
+                    .then(data => {
+                        setCasesData(data);
+                    })
+        }
+        fetchData();
+    }, []);
+
+    console.log(casesData.cases);
 
   const onCountryChange = async (event) => {
     const countryCode = event.target.value;
@@ -46,7 +71,7 @@ function App() {
     await fetch(url)
     .then(res => res.json())
     .then(data => {
-      setCountryInfo(data);
+      setCountryInfo({data});
     })
   }
 
@@ -74,12 +99,21 @@ function App() {
           <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths}/>
         </div>
 
+        
+           
+        
+        
+
         <Map />
       </div>
       <Card className="app__right">
         <CardContent>
           <h3>Live Cases by Country</h3>
+          <Table countries={tableData} />
           <h3>Worldwide new Cases</h3>
+          {
+            casesData?.cases && <LineGraph casesData={casesData}/> 
+          }
         </CardContent>
       </Card>
     </div>
