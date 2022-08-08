@@ -17,3 +17,10 @@
 .table tr:nth-child(odd) {
     background: #f3f2f8;
 }
+
+/* Responsive CSS */
+@media (max-width: 1200px) {
+    .table {
+      margin: 20px 0 50px;
+    }
+  }

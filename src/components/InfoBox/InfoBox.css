@@ -16,3 +16,10 @@
 .bg-gray {
     background: rgb(208, 208, 208) !important;
 }
+
+/* Responsive CSS */
+@media (max-width: 767px) {
+    .infoBox{
+      width: 100%;
+    }
+  }

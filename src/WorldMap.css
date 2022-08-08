@@ -17,3 +17,11 @@
     align-items: 'center';
     margin-bottom: '10px';
 }
+
+/* Responsive CSS */
+@media (max-width: 575px) {
+    .map {
+        padding: 0.3rem;
+        border-radius: 5px;
+    }
+}

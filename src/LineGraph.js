@@ -55,7 +55,7 @@ function LineGraph ({casesData}) {
 
   
     return (
-        <div>
+        <div style={{marginTop: '20px'}}>
           <Line data={formatedData} options={options} />
         </div>
     );

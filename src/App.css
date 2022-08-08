@@ -12,6 +12,7 @@ body {
   display: flex;
   justify-content: space-evenly;
   padding: 20px;
+  column-gap: 20px;
 }
 
 .app__left {
@@ -34,8 +35,40 @@ body {
 }
 
 /* Responsive CSS */
+@media (max-width: 1200px) {
+  .container {
+    display: block;
+  }
+  .app__left {
+    margin-bottom: 50px;
+    order: 2;
+  }
+  .app_right {
+    order: 1;
+  }
+}
 @media (max-width: 998px) {
  .App {
   flex-direction: column;
  }
+}
+
+@media (max-width: 767px) {
+  .app__stats{
+    display: block;
+  }
+}
+@media (max-width: 575px) {
+  .app__header {
+    display: block;
+  }
+  .logo {
+    margin-bottom: 20px;
+  }
+  .app__dropdown {
+    width: 100%;
+  }
+  .app__left {
+    margin-bottom: 20px;
+  }
 }
