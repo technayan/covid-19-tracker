@@ -9,6 +9,7 @@ import Table from './Table';
 import { sortData } from './util';
 import LineGraph from './LineGraph';
 import "leaflet/dist/leaflet.css";
+import Footer from './Footer';
 
 
 function App() {
@@ -21,8 +22,11 @@ function App() {
   const  [casesData, setCasesData] = useState({});
 
   // Map
-  const [mapCenter, setMapCenter] = useState({lat: 34.80746, lng: -40.4796})
-  const [mapZoom, setMapZoom] = useState(3);
+  const [mapCenter, setMapCenter] = useState({lat: 34.80746, lng: 40.4796});
+  const [mapZoom, setMapZoom] = useState(2);
+  const [mapCountries, setMapCountries] = useState([]);
+  const [casesType, setCasesType] = useState("cases");
+
 
   useEffect(() => {
     fetch('https://disease.sh/v3/covid-19/all')
@@ -45,6 +49,7 @@ function App() {
 
         const sortedData = sortData(data);
         setTableData(sortedData);
+        setMapCountries(data);
         setCountries(countries);
       });
     };
@@ -73,6 +78,7 @@ function App() {
       })
     }
 
+
   const onCountryChange = async (event) => {
     const countryCode = event.target.value;
     
@@ -84,8 +90,10 @@ function App() {
     .then(data => {
       setCountry(countryCode);
       setCountryInfo(data);
+      
+      setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+      setMapZoom(4);
     })
-    console.log(caseUrl)
     
     reFetch(caseUrl);
     
@@ -94,40 +102,44 @@ function App() {
 
   return (
     <div className="App">
-      <div className="app__left">
-        <div className="app__header">
-          <h1>Covid-19 Tracker</h1>
-          <FormControl className='app__dropdown'>
-            <Select variant='outlined' onChange={onCountryChange} value={country} label="Worldwide">
-              <MenuItem value='worldwide'>Worldwide</MenuItem>
-              {
-                countries.map((country, i) => (
-                  <MenuItem key={i} value={country.name}>{country.name}</MenuItem>
-                ) )
-              }
-            </Select>
-          </FormControl>
+      <div className="container">
+        <div className="app__left">
+          <div className="app__header">
+            <h1><i class="ri-virus-line color-red"></i> Covid-19 Tracker</h1>
+            <FormControl className='app__dropdown'>
+              <Select variant='outlined' onChange={onCountryChange} value={country} label="Worldwide">
+                <MenuItem value='worldwide'>Worldwide</MenuItem>
+                {
+                  countries.map((country, i) => (
+                    <MenuItem key={i} value={country.name}>{country.name}</MenuItem>
+                  ) )
+                }
+              </Select>
+            </FormControl>
+          </div>
+
+          <div className="app__stats">
+            <InfoBox background='red' title="Coronavirus Cases" cases={countryInfo.todayCases} total={countryInfo.cases}/>
+            <InfoBox background='green' title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered}/>
+            <InfoBox background='gray' title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths}/>
+          </div>
+
+        {/* Map */}
+        <WorldMap countries={mapCountries} casesType={casesType} center={mapCenter} zoom={mapZoom} />
+
         </div>
-
-        <div className="app__stats">
-          <InfoBox title="Coronavirus Cases" cases={countryInfo.todayCases} total={countryInfo.cases}/>
-          <InfoBox title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered}/>
-          <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths}/>
-        </div>
-
-
-        <WorldMap center={mapCenter} zoom={mapZoom} />
+        <Card className="app__right">
+          <CardContent>
+            <h3>Live Cases by Country</h3>
+            <Table countries={tableData} />
+            <h3 style={{textTransform: 'capitalize'}}>{country} (Last 15 Days)</h3>
+            {
+              casesData?.cases && <LineGraph casesData={casesData}/> 
+            }
+          </CardContent>
+        </Card>
       </div>
-      <Card className="app__right">
-        <CardContent>
-          <h3>Live Cases by Country</h3>
-          <Table countries={tableData} />
-          <h3>{country} (Last 15 Days)</h3>
-          {
-            casesData?.cases && <LineGraph casesData={casesData}/> 
-          }
-        </CardContent>
-      </Card>
+      <Footer />
     </div>
   );
 }

@@ -10,3 +10,10 @@
 .map .leaflet-container {
     height: 100%;
 }
+
+.popup-header {
+    display: 'flex';
+    justify-content: 'space-between';
+    align-items: 'center';
+    margin-bottom: '10px';
+}

@@ -1,0 +1,18 @@
+.infoBox {
+    width: 250px;
+    color: rgb(44, 44, 44);
+    margin: 20px 0;
+}
+
+.bg-red {
+    background-color: rgb(255, 133, 133) !important;
+    color: rgb(29, 29, 29) !important;
+}
+
+.bg-green {
+    background-color: rgb(148, 237, 148) !important;
+}
+
+.bg-gray {
+    background: rgb(208, 208, 208) !important;
+}
