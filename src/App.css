@@ -61,6 +61,7 @@ body {
 @media (max-width: 575px) {
   .app__header {
     display: block;
+    text-align: center;
   }
   .logo {
     margin-bottom: 20px;

@@ -105,7 +105,7 @@ function App() {
       <div className="container">
         <div className="app__left">
           <div className="app__header">
-            <h1 className='logo'><i class="ri-virus-line color-red"></i> Covid-19 Tracker</h1>
+            <h1 className='logo'><i className="ri-virus-line color-red"></i> Covid-19 Tracker</h1>
             <FormControl className='app__dropdown'>
               <Select variant='outlined' onChange={onCountryChange} value={country} label="Worldwide">
                 <MenuItem value='worldwide'>Worldwide</MenuItem>

@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import './InfoBox.css'
 
 const InfoBox = ({background, title, cases, total}) => {
+    
     return (
         <Card className={`infoBox bg-${background}`}>
             <CardContent>
